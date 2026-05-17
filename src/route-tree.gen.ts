@@ -9,38 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root';
+import { Route as PublicRouteRouteImport } from './routes/_public/route';
 import { Route as IndexRouteImport } from './routes/index';
+import { Route as PublicEntrarRouteImport } from './routes/_public/entrar';
+import { Route as PublicCriarContaRouteImport } from './routes/_public/criar-conta';
 
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any);
+const PublicEntrarRoute = PublicEntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => PublicRouteRoute,
+} as any);
+const PublicCriarContaRoute = PublicCriarContaRouteImport.update({
+  id: '/criar-conta',
+  path: '/criar-conta',
+  getParentRoute: () => PublicRouteRoute,
+} as any);
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
+  '/criar-conta': typeof PublicCriarContaRoute;
+  '/entrar': typeof PublicEntrarRoute;
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
+  '/criar-conta': typeof PublicCriarContaRoute;
+  '/entrar': typeof PublicEntrarRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/': typeof IndexRoute;
+  '/_public': typeof PublicRouteRouteWithChildren;
+  '/_public/criar-conta': typeof PublicCriarContaRoute;
+  '/_public/entrar': typeof PublicEntrarRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/';
+  fullPaths: '/' | '/criar-conta' | '/entrar';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/';
-  id: '__root__' | '/';
+  to: '/' | '/criar-conta' | '/entrar';
+  id:
+    | '__root__'
+    | '/'
+    | '/_public'
+    | '/_public/criar-conta'
+    | '/_public/entrar';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_public': {
+      id: '/_public';
+      path: '';
+      fullPath: '/';
+      preLoaderRoute: typeof PublicRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/': {
       id: '/';
       path: '/';
@@ -48,11 +85,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    '/_public/entrar': {
+      id: '/_public/entrar';
+      path: '/entrar';
+      fullPath: '/entrar';
+      preLoaderRoute: typeof PublicEntrarRouteImport;
+      parentRoute: typeof PublicRouteRoute;
+    };
+    '/_public/criar-conta': {
+      id: '/_public/criar-conta';
+      path: '/criar-conta';
+      fullPath: '/criar-conta';
+      preLoaderRoute: typeof PublicCriarContaRouteImport;
+      parentRoute: typeof PublicRouteRoute;
+    };
   }
 }
 
+interface PublicRouteRouteChildren {
+  PublicCriarContaRoute: typeof PublicCriarContaRoute;
+  PublicEntrarRoute: typeof PublicEntrarRoute;
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicCriarContaRoute: PublicCriarContaRoute,
+  PublicEntrarRoute: PublicEntrarRoute,
+};
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+);
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
