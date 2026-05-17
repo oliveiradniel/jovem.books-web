@@ -1,0 +1,110 @@
+{
+  "extends": [
+    "@commitlint/config-conventional"
+  ],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "build",
+        "chore",
+        "ci",
+        "docs",
+        "feat",
+        "fix",
+        "perf",
+        "refactor",
+        "style",
+        "revert",
+        "test"
+      ]
+    ],
+    "type-case": [
+      2,
+      "always",
+      "lower-case"
+    ],
+    "type-empty": [
+      2,
+      "never"
+    ],
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "config",
+        "http",
+        "tooling",
+        "hooks",
+        "docs",
+        "infra",
+        "page",
+        "ui",
+        "service-layer",
+        "component",
+        "professionals",
+        "works",
+        "system-collections",
+        "publishers",
+        "editions",
+        "books",
+        "literary-genres",
+        "languages",
+        "work-contributions",
+        "work-collections",
+        "edition-contributions",
+        "work-literary-genres",
+        "readables",
+        "readings",
+        "reading-sessions",
+        "reading-progress",
+        "notes",
+        "note-kinds",
+        "tags",
+        "note-tag",
+        "reviews",
+        "review-versions",
+        "user",
+        "activities",
+        "reactions",
+        "comments",
+        "followers",
+        "groupies",
+        "group-members",
+        "group-items",
+        "group-modules",
+        "group-module-items",
+        "goals"
+      ]
+    ],
+    "scope-case": [
+      2,
+      "always",
+      "lower-case"
+    ],
+    "subject-case": [
+      2,
+      "always",
+      "lower-case"
+    ],
+    "subject-empty": [
+      2,
+      "never"
+    ],
+    "subject-full-stop": [
+      2,
+      "never",
+      "."
+    ],
+    "body-full-stop": [
+      2,
+      "never",
+      "."
+    ],
+    "body-leading-blank": [
+      2,
+      "always"
+    ]
+  }
+}
