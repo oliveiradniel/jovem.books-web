@@ -39,6 +39,7 @@
         "hooks",
         "docs",
         "infra",
+        "router",
         "page",
         "ui",
         "service-layer",
