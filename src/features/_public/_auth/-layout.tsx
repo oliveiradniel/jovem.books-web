@@ -1,12 +1,8 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { Outlet } from '@tanstack/react-router';
 
 import placeholder from '@/assets/images/placeholder.svg';
 
-export const Route = createFileRoute('/_public')({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+export function AuthLayout() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-1 items-center justify-center">

@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import { fieldVariants } from './variants';
 import { cn } from '@/utils/cn';
 
-import { Label } from '@/view/components/label';
-import { Separator } from '@/view/components/separator';
+import { Label } from '@/components/label';
+import { Separator } from '@/components/separator';
 
 import type { VariantProps } from 'class-variance-authority';
 

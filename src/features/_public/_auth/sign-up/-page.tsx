@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { GoogleIcon } from '@/assets/icons/google';
-import { Button } from '@/view/components/button';
+import { Button } from '@/components/button';
 import {
   Field,
   FieldDescription,
@@ -10,14 +10,14 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from '@/view/components/field';
-import { Input } from '@/view/components/input';
+} from '@/components/field';
+import { Input } from '@/components/input';
 import { Link } from '@tanstack/react-router';
-import { InputPassword } from '@/view/components/input-password';
+import { InputPassword } from '@/components/input-password';
 
-import { SignUpSchema, type SignUpPayload } from '@/schemas/sign-up-schema';
+import { SignUpSchema, type SignUpPayload } from './-schema';
 
-export function Signup() {
+export function Page() {
   const { register, handleSubmit, formState } = useForm<SignUpPayload>({
     mode: 'onChange',
     resolver: zodResolver(SignUpSchema),
@@ -33,8 +33,7 @@ export function Signup() {
   const passwordError = formState.errors.password;
   const confirmPassordError = formState.errors.confirmPassword;
 
-  const isFormValid =
-    !firstNameError && !lastNameError && !emailError && !passwordError;
+  const isFormValid = formState.isValid;
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-6">
@@ -135,7 +134,7 @@ export function Signup() {
         </Field>
 
         <FieldDescription className="px-6 text-center">
-          Já tem uma conta? <Link to="/entrar">Entre aqui</Link>
+          Já tem uma conta? <Link to="/sign-in">Entre aqui</Link>
         </FieldDescription>
       </FieldGroup>
     </form>

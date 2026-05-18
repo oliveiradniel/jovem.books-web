@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { cn } from '@/utils/cn';
 
 import { GoogleIcon } from '@/assets/icons/google';
-import { Button } from '@/view/components/button';
+import { Button } from '@/components/button';
 import {
   Field,
   FieldDescription,
@@ -12,27 +12,31 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from '@/view/components/field';
-import { Input } from '@/view/components/input';
+} from '@/components/field';
+import { Input } from '@/components/input';
 import { Link } from '@tanstack/react-router';
-import { InputPassword } from '@/view/components/input-password';
+import { InputPassword } from '@/components/input-password';
 
-import { SignInSchema, type SignInPayload } from '@/schemas/sign-in-schema';
+import { SignInSchema, type SignInPayload } from './-schema';
+import { authQueries } from '../-query';
+import { useMutation } from '@tanstack/react-query';
 
-export function SignIn() {
+export function Page() {
+  const { mutateAsync } = useMutation(authQueries.signIn());
+
   const { register, handleSubmit, formState } = useForm<SignInPayload>({
     mode: 'onChange',
     resolver: zodResolver(SignInSchema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    await mutateAsync(data);
   });
 
   const emailError = formState.errors.email;
   const passwordError = formState.errors.password;
 
-  const isFormValid = !emailError && !passwordError;
+  const isFormValid = formState.isValid;
 
   return (
     <form onSubmit={onSubmit} className={cn('flex flex-col gap-6')}>
@@ -43,7 +47,7 @@ export function SignIn() {
           <Button variant="outline" type="button">
             <GoogleIcon />
 
-            <span className="">Entrar com o Google</span>
+            <span>Entrar com o Google</span>
           </Button>
         </Field>
 
@@ -94,7 +98,7 @@ export function SignIn() {
 
         <FieldDescription className="text-center">
           Ainda não tem uma conta?{' '}
-          <Link to="/criar-conta" className="underline underline-offset-4">
+          <Link to="/sign-up" className="underline underline-offset-4">
             Criar conta
           </Link>
         </FieldDescription>

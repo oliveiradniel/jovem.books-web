@@ -1,34 +1,33 @@
-import axios, { type AxiosResponse } from 'axios';
+export interface HttpRequestConfig {
+  headers?: Record<string, string>;
+  params?: Record<string, string | number>;
+}
 
-import { env } from '../../config/env';
+interface BaseRequest {
+  path: string;
+  config?: HttpRequestConfig;
+}
 
-import type { HttpRequestConfig, IHttpClient } from '../contracts/http-client';
+export type GetRequest = BaseRequest;
 
-export const httpClient = axios.create({
-  baseURL: env.API_URL,
-});
+export type PostRequest<TBody> = BaseRequest & {
+  body: TBody;
+};
 
-export class HttpClient implements IHttpClient {
-  get<TResponse>(
-    path: string,
-    config?: HttpRequestConfig,
-  ): Promise<AxiosResponse<TResponse>> {
-    return httpClient.get<TResponse>(path, config);
-  }
+export type PatchRequest<TBody> = BaseRequest & {
+  body: TBody;
+};
 
-  post<TBody, TResponse>(
-    path: string,
-    body: TBody,
-    config?: HttpRequestConfig,
-  ): Promise<AxiosResponse<TResponse>> {
-    return httpClient.post<TResponse>(path, body, config);
-  }
-
-  patch<TBody, TResponse>(
-    path: string,
-    body: TBody,
-    config?: HttpRequestConfig,
-  ): Promise<AxiosResponse<TResponse>> {
-    return httpClient.patch<TResponse>(path, body, config);
-  }
+export interface HttpClient {
+  get<TResponse>({ path, config }: GetRequest): Promise<TResponse>;
+  post<TBody, TResponse>({
+    path,
+    body,
+    config,
+  }: PostRequest<TBody>): Promise<TResponse>;
+  patch<TBody, TResponse>({
+    path,
+    body,
+    config,
+  }: PatchRequest<TBody>): Promise<TResponse>;
 }

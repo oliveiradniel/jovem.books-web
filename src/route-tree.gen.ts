@@ -8,64 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root';
-import { Route as PublicRouteRouteImport } from './routes/_public/route';
-import { Route as IndexRouteImport } from './routes/index';
-import { Route as PublicEntrarRouteImport } from './routes/_public/entrar';
-import { Route as PublicCriarContaRouteImport } from './routes/_public/criar-conta';
+import { Route as rootRouteImport } from './features/__root';
+import { Route as PublicRouteRouteImport } from './features/_public/route';
+import { Route as PublicAuthRouteRouteImport } from './features/_public/_auth/route';
+import { Route as PublicAuthSignUpRouteRouteImport } from './features/_public/_auth/sign-up/route';
+import { Route as PublicAuthSignInRouteRouteImport } from './features/_public/_auth/sign-in/route';
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any);
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any);
-const PublicEntrarRoute = PublicEntrarRouteImport.update({
-  id: '/entrar',
-  path: '/entrar',
+const PublicAuthRouteRoute = PublicAuthRouteRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => PublicRouteRoute,
 } as any);
-const PublicCriarContaRoute = PublicCriarContaRouteImport.update({
-  id: '/criar-conta',
-  path: '/criar-conta',
-  getParentRoute: () => PublicRouteRoute,
+const PublicAuthSignUpRouteRoute = PublicAuthSignUpRouteRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => PublicAuthRouteRoute,
+} as any);
+const PublicAuthSignInRouteRoute = PublicAuthSignInRouteRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => PublicAuthRouteRoute,
 } as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/criar-conta': typeof PublicCriarContaRoute;
-  '/entrar': typeof PublicEntrarRoute;
+  '/': typeof PublicAuthRouteRouteWithChildren;
+  '/sign-in': typeof PublicAuthSignInRouteRoute;
+  '/sign-up': typeof PublicAuthSignUpRouteRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/criar-conta': typeof PublicCriarContaRoute;
-  '/entrar': typeof PublicEntrarRoute;
+  '/': typeof PublicAuthRouteRouteWithChildren;
+  '/sign-in': typeof PublicAuthSignInRouteRoute;
+  '/sign-up': typeof PublicAuthSignUpRouteRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
-  '/': typeof IndexRoute;
   '/_public': typeof PublicRouteRouteWithChildren;
-  '/_public/criar-conta': typeof PublicCriarContaRoute;
-  '/_public/entrar': typeof PublicEntrarRoute;
+  '/_public/_auth': typeof PublicAuthRouteRouteWithChildren;
+  '/_public/_auth/sign-in': typeof PublicAuthSignInRouteRoute;
+  '/_public/_auth/sign-up': typeof PublicAuthSignUpRouteRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/criar-conta' | '/entrar';
+  fullPaths: '/' | '/sign-in' | '/sign-up';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/criar-conta' | '/entrar';
+  to: '/' | '/sign-in' | '/sign-up';
   id:
     | '__root__'
-    | '/'
     | '/_public'
-    | '/_public/criar-conta'
-    | '/_public/entrar';
+    | '/_public/_auth'
+    | '/_public/_auth/sign-in'
+    | '/_public/_auth/sign-up';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
   PublicRouteRoute: typeof PublicRouteRouteWithChildren;
 }
 
@@ -78,38 +76,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    '/': {
-      id: '/';
-      path: '/';
+    '/_public/_auth': {
+      id: '/_public/_auth';
+      path: '';
       fullPath: '/';
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    '/_public/entrar': {
-      id: '/_public/entrar';
-      path: '/entrar';
-      fullPath: '/entrar';
-      preLoaderRoute: typeof PublicEntrarRouteImport;
+      preLoaderRoute: typeof PublicAuthRouteRouteImport;
       parentRoute: typeof PublicRouteRoute;
     };
-    '/_public/criar-conta': {
-      id: '/_public/criar-conta';
-      path: '/criar-conta';
-      fullPath: '/criar-conta';
-      preLoaderRoute: typeof PublicCriarContaRouteImport;
-      parentRoute: typeof PublicRouteRoute;
+    '/_public/_auth/sign-up': {
+      id: '/_public/_auth/sign-up';
+      path: '/sign-up';
+      fullPath: '/sign-up';
+      preLoaderRoute: typeof PublicAuthSignUpRouteRouteImport;
+      parentRoute: typeof PublicAuthRouteRoute;
+    };
+    '/_public/_auth/sign-in': {
+      id: '/_public/_auth/sign-in';
+      path: '/sign-in';
+      fullPath: '/sign-in';
+      preLoaderRoute: typeof PublicAuthSignInRouteRouteImport;
+      parentRoute: typeof PublicAuthRouteRoute;
     };
   }
 }
 
+interface PublicAuthRouteRouteChildren {
+  PublicAuthSignInRouteRoute: typeof PublicAuthSignInRouteRoute;
+  PublicAuthSignUpRouteRoute: typeof PublicAuthSignUpRouteRoute;
+}
+
+const PublicAuthRouteRouteChildren: PublicAuthRouteRouteChildren = {
+  PublicAuthSignInRouteRoute: PublicAuthSignInRouteRoute,
+  PublicAuthSignUpRouteRoute: PublicAuthSignUpRouteRoute,
+};
+
+const PublicAuthRouteRouteWithChildren = PublicAuthRouteRoute._addFileChildren(
+  PublicAuthRouteRouteChildren,
+);
+
 interface PublicRouteRouteChildren {
-  PublicCriarContaRoute: typeof PublicCriarContaRoute;
-  PublicEntrarRoute: typeof PublicEntrarRoute;
+  PublicAuthRouteRoute: typeof PublicAuthRouteRouteWithChildren;
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
-  PublicCriarContaRoute: PublicCriarContaRoute,
-  PublicEntrarRoute: PublicEntrarRoute,
+  PublicAuthRouteRoute: PublicAuthRouteRouteWithChildren,
 };
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
@@ -117,7 +127,6 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 );
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   PublicRouteRoute: PublicRouteRouteWithChildren,
 };
 export const routeTree = rootRouteImport
