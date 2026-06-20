@@ -9,9 +9,7 @@ export class MeUseCase {
     this.httpClient = httpClient;
   }
 
-  async execute() {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
+  execute() {
     return this.httpClient.get<User>({ path: '/me' });
   }
 }

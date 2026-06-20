@@ -18,7 +18,6 @@ import { InputIcon } from '@/components/Input';
 import {
   Link,
   useNavigate,
-  useRouter,
   useSearch,
 } from '@tanstack/react-router';
 import { InputPassword } from '@/components/InputPassword';
@@ -28,7 +27,6 @@ import { useAuth } from '../context/use';
 import { MailIcon } from 'lucide-react';
 
 export function SignInPage() {
-  const router = useRouter();
   const search = useSearch({ from: '/_public/sign-in' });
   const navigate = useNavigate();
 
@@ -44,8 +42,6 @@ export function SignInPage() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await signIn(data);
-
-      await router.invalidate();
 
       await navigate({ to: search.redirect || '/dashboard' });
     } catch (error) {

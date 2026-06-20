@@ -6,6 +6,7 @@ import { queryClient } from './core/providers/queryClient';
 
 export const router = createRouter({
   routeTree,
+  defaultPendingMs: 0,
   context: {
     queryClient,
   },
