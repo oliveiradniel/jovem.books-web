@@ -1,5 +1,5 @@
-import type { HttpClient } from '@/core/infra/http-client';
-import type { SignUpPayload } from './-schema';
+import type { HttpClient } from '@/core/infra/contracts/httpClient';
+import type { SignUpPayload } from '../signUp/schema';
 
 export class SignUpUseCase {
   private readonly httpClient: HttpClient;

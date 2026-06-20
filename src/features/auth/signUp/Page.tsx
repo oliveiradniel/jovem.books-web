@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { GoogleIcon } from '@/assets/icons/google';
-import { Button } from '@/components/button';
+import { Button } from '@/components/Button';
 import {
   Field,
   FieldDescription,
@@ -10,21 +10,24 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from '@/components/field';
-import { Input } from '@/components/input';
+} from '@/components/Field';
+import { InputIcon } from '@/components/Input';
 import { Link } from '@tanstack/react-router';
-import { InputPassword } from '@/components/input-password';
+import { InputPassword } from '@/components/InputPassword';
+import { useAuth } from '../context/use';
+import { SignUpSchema, type SignUpPayload } from './schema';
+import { MailIcon, UserIcon } from 'lucide-react';
 
-import { SignUpSchema, type SignUpPayload } from './-schema';
+export function SignUpPage() {
+  const { signUp, isSigningUp } = useAuth();
 
-export function Page() {
   const { register, handleSubmit, formState } = useForm<SignUpPayload>({
     mode: 'onChange',
     resolver: zodResolver(SignUpSchema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = handleSubmit(async (data) => {
+    await signUp(data);
   });
 
   const firstNameError = formState.errors.firstName;
@@ -51,30 +54,32 @@ export function Page() {
         <FieldSeparator>Ou preencha o formulário abaixo</FieldSeparator>
 
         <Field>
-          <FieldLabel htmlFor="first-name">Primeiro nome</FieldLabel>
+          <FieldLabel htmlFor="first-name">Nome</FieldLabel>
 
-          <Input
+          <InputIcon
             id="first-name"
             aria-invalid={!!firstNameError}
             type="text"
             placeholder="Machado"
             required
             className="bg-background"
+            Icon={UserIcon}
             {...register('firstName')}
           />
           <FieldError>{firstNameError?.message}</FieldError>
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="last-name">Último nome</FieldLabel>
+          <FieldLabel htmlFor="last-name">Sobrenome</FieldLabel>
 
-          <Input
+          <InputIcon
             id="last-name"
             aria-invalid={!!lastNameError}
             type="text"
             placeholder="de Assis"
             required
             className="bg-background"
+            Icon={UserIcon}
             {...register('lastName')}
           />
           <FieldError>{lastNameError?.message}</FieldError>
@@ -83,13 +88,14 @@ export function Page() {
         <Field>
           <FieldLabel htmlFor="email">E-mail</FieldLabel>
 
-          <Input
+          <InputIcon
             id="email"
             aria-invalid={!!emailError}
             type="email"
             placeholder="machadodeassis@example.com"
             required
             className="bg-background"
+            Icon={MailIcon}
             {...register('email')}
           />
           <FieldError>{emailError?.message}</FieldError>
@@ -128,13 +134,25 @@ export function Page() {
         </Field>
 
         <Field>
-          <Button type="submit" disabled={!isFormValid}>
+          <Button
+            type="submit"
+            disabled={!isFormValid}
+            isLoading={isSigningUp}
+            loadingText="Criando conta..."
+          >
             Criar conta
           </Button>
         </Field>
 
         <FieldDescription className="px-6 text-center">
-          Já tem uma conta? <Link to="/sign-in">Entre aqui</Link>
+          Já tem uma conta?{' '}
+          <Link
+            to="/sign-in"
+            search={{ redirect: '' }}
+            className="transition-colors"
+          >
+            Entre aqui
+          </Link>
         </FieldDescription>
       </FieldGroup>
     </form>
