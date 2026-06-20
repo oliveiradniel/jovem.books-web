@@ -1,9 +1,9 @@
 import { cn } from '@/utils/cn';
 import { inputGroupAddonVariants, inputGroupButtonVariants } from './variants';
 
-import { Button } from '@/components/button';
-import { Input } from '@/components/input';
-import { Textarea } from '@/components/textarea';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { Textarea } from '@/components/Textarea';
 
 import type { VariantProps } from 'class-variance-authority';
 import type { ComponentProps } from 'react';

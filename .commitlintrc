@@ -44,6 +44,7 @@
         "ui",
         "service-layer",
         "component",
+        "components",
         "professionals",
         "works",
         "system-collections",
@@ -80,11 +81,6 @@
       ]
     ],
     "scope-case": [
-      2,
-      "always",
-      "lower-case"
-    ],
-    "subject-case": [
       2,
       "always",
       "lower-case"

@@ -1,6 +1,10 @@
+import type { ComponentProps } from 'react';
+
 import { cn } from '@/utils/cn';
 
-import type { ComponentProps } from 'react';
+import type { LucideIcon } from 'lucide-react';
+
+import { InputGroup, InputGroupAddon, InputGroupInput } from './InputGroup';
 
 function Input({ className, type, ...props }: ComponentProps<'input'>) {
   return (
@@ -16,4 +20,25 @@ function Input({ className, type, ...props }: ComponentProps<'input'>) {
   );
 }
 
-export { Input };
+function InputIcon({
+  className,
+  Icon,
+  ...props
+}: { Icon?: LucideIcon } & ComponentProps<'input'>) {
+  return (
+    <InputGroup
+      data-invalid={props['aria-invalid']}
+      className="focus-within:[&_svg]:text-primary has-[input:not(:placeholder-shown):not([aria-invalid=true])]:[&_svg]:text-primary data-[invalid=true]:[&_svg]:text-destructive"
+    >
+      {Icon && (
+        <InputGroupAddon>
+          <Icon />
+        </InputGroupAddon>
+      )}
+
+      <InputGroupInput className={cn('h-8', className)} {...props} />
+    </InputGroup>
+  );
+}
+
+export { Input, InputIcon };
