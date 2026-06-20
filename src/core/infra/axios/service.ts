@@ -1,4 +1,4 @@
-import { axiosCreate } from './axios-create';
+import { createAxiosClient } from './client';
 
 import type { AxiosInstance } from 'axios';
 import type {
@@ -6,13 +6,13 @@ import type {
   HttpClient,
   PatchRequest,
   PostRequest,
-} from '../http-client';
+} from '../contracts/httpClient';
 
 export class AxiosService implements HttpClient {
   private readonly client: AxiosInstance;
 
   constructor(baseURL: string = '') {
-    this.client = axiosCreate(baseURL);
+    this.client = createAxiosClient(baseURL);
   }
 
   async get<TResponse>({ path, config }: GetRequest): Promise<TResponse> {

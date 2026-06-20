@@ -1,6 +1,6 @@
-import { AxiosService } from './axios-service';
+import { AxiosService } from './service';
 
-import type { HttpClient } from '../http-client';
+import type { HttpClient } from '../contracts/httpClient';
 
 export class AxiosFactory {
   private static instances = new Map<string, HttpClient>();
