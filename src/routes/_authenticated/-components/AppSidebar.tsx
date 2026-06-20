@@ -1,5 +1,3 @@
-import shadcn from '@/assets/images/shadcn.jpg';
-
 import {
   LibraryIcon,
   UsersIcon,
@@ -18,68 +16,53 @@ import {
 } from '@/components/Sidebar';
 
 const data = {
-  user: {
-    name: 'Machado de Assis',
-    email: 'machadodeassis@example.com',
-    avatar: shadcn,
-  },
   navMain: [
     {
       title: 'Minha Estante',
-      url: '/estante',
+      url: '/bookcase',
       icon: <LibraryIcon />,
       isActive: true,
       items: [
         {
           title: 'Livros',
-          url: '/estante/livros',
+          url: '/bookcase/books',
         },
         {
           title: 'Áudio-livros',
-          url: '/estante/audio-livros',
+          url: '/bookcase/audio-books',
         },
         {
           title: "HQ's",
-          url: '/estante/historias-em-quadrinhos',
+          url: '/bookcase/comic-books',
         },
         {
           title: 'Mangás',
-          url: '/estante/mangas',
+          url: '/bookcase/mangas',
         },
       ],
     },
     {
       title: 'Clubes de Leitura',
-      url: '/clubes',
+      url: '/clubs',
       icon: <UsersIcon />,
       isActive: true,
     },
     {
       title: 'Minhas Metas',
-      url: '/metas',
+      url: '/goals',
       icon: <TrendingUpIcon />,
       isActive: true,
     },
     {
       title: 'Anotações',
-      url: '/anotacoes',
+      url: '/notes',
       icon: <NotebookPenIcon />,
       isActive: true,
     },
     {
       title: 'Descobrir',
-      url: '/descobrir',
+      url: '/discover',
       icon: <SearchIcon />,
-      items: [
-        {
-          title: 'Jovem Books',
-          url: '/descobrir/jovem-books',
-        },
-        {
-          title: 'Google Books',
-          url: '/descobrir/google-books',
-        },
-      ],
     },
   ],
 };
@@ -91,7 +74,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>

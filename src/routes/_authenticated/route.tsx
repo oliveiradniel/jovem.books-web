@@ -1,8 +1,11 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { AuthLayout } from './-components/Layout';
+
 import { authQueries } from '@/features/auth/queries';
-import { ACCESS_TOKEN_STORAGE_KEY } from '@/constants/accessTokenStorageKey';
+
 import { LoaderCircleIcon } from 'lucide-react';
+import { AuthLayout } from './-components/Layout';
+
+import { ACCESS_TOKEN_STORAGE_KEY } from '@/constants/accessTokenStorageKey';
 
 export const Route = createFileRoute('/_authenticated')({
   component: AuthLayout,
@@ -17,7 +20,15 @@ export const Route = createFileRoute('/_authenticated')({
 
   beforeLoad: async ({ context, location }) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
-    if (!accessToken) return;
+
+    if (!accessToken) {
+      throw redirect({
+        to: '/sign-in',
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
 
     const activeUser = await context.queryClient
       .ensureQueryData(authQueries.me())
@@ -31,5 +42,7 @@ export const Route = createFileRoute('/_authenticated')({
         },
       });
     }
+
+    return { activeUser };
   },
 });
