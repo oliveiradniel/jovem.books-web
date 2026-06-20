@@ -45,6 +45,8 @@
         "service-layer",
         "component",
         "components",
+        "auth",
+        "app",
         "professionals",
         "works",
         "system-collections",

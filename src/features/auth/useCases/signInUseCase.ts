@@ -9,7 +9,6 @@ export class SignInUseCase {
   }
 
   execute(params: SignInPayload) {
-    console.log(params);
     return this.httpClient.post<SignInPayload, { accessToken: string }>({
       path: '/sign-in',
       body: {
