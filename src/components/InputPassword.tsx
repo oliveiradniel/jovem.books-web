@@ -42,11 +42,21 @@ export function InputPassword({
         aria-label={inputType === 'text' ? 'Ocultar senha' : 'Mostrar senha'}
         type="button"
         size="icon-xs"
-        className="text-muted-foreground mr-2 hover:bg-white"
+        className="text-muted-foreground mr-2 transition-opacity hover:bg-white hover:opacity-60"
         onClick={handleToggleTypeInput}
         onMouseDown={(e) => e.preventDefault()}
       >
-        {inputType === 'text' ? <EyeOffIcon /> : <EyeIcon />}
+        {inputType === 'text' ? (
+          <EyeOffIcon
+            data-error={!!props['aria-invalid']}
+            className="data-[error=true]:text-destructive"
+          />
+        ) : (
+          <EyeIcon
+            data-error={!!props['aria-invalid']}
+            className="data-[error=true]:text-destructive"
+          />
+        )}
       </InputGroupButton>
     </InputGroup>
   );
